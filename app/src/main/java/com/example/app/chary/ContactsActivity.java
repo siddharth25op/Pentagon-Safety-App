@@ -31,16 +31,18 @@ public class ContactsActivity extends AppCompatActivity {
     private static final String KEY_CON1 = "con1";
     private static final String KEY_CON2 = "con2";
     private static final String KEY_CON3 = "con3";
+    private static final String KEY_CON4 = "con4";
+    private static final String KEY_CON5 = "con5";
     private static final String KEY_CONTACTS_NO = "no_of_contacts";
 
     ImageButton addContactButton;
-    Map<String, String> myContacts = new HashMap<>(3);
+    Map<String, String> myContacts = new HashMap<>(5);
     SharedPreferences sh;
     int emgContacts;
 
 
-    ImageView[] icons = new ImageView[3];
-    TextView[] people = new TextView[3];
+    ImageView[] icons = new ImageView[5];
+    TextView[] people = new TextView[5];
 
     TextView textView = null;
 
@@ -53,10 +55,14 @@ public class ContactsActivity extends AppCompatActivity {
         icons[0] = findViewById(R.id.imageView1);
         icons[1] = findViewById(R.id.imageView2);
         icons[2] = findViewById(R.id.imageView3);
+        icons[3] = findViewById(R.id.imageView8);
+        icons[4] = findViewById(R.id.imageView10);
 
         people[0] = findViewById(R.id.textView1);
         people[1] = findViewById(R.id.textView2);
         people[2] = findViewById(R.id.textView3);
+        people[3] = findViewById(R.id.textView8);
+        people[4] = findViewById(R.id.textView10);
 
 
         addContactButton = findViewById(R.id.add_button);
@@ -88,6 +94,8 @@ public class ContactsActivity extends AppCompatActivity {
         myContacts.put(KEY_CON1, sh.getString(KEY_CON1, ""));
         myContacts.put(KEY_CON2, sh.getString(KEY_CON2, ""));
         myContacts.put(KEY_CON3, sh.getString(KEY_CON3, ""));
+        myContacts.put(KEY_CON4, sh.getString(KEY_CON4, ""));
+        myContacts.put(KEY_CON5, sh.getString(KEY_CON5, ""));
 
         Log.d(TAG, myContacts.toString() + " : " + emgContacts);
 
@@ -109,6 +117,14 @@ public class ContactsActivity extends AppCompatActivity {
 
             Snackbar.make(findViewById(R.id.my_constLayout), "Add one more emergency contact for your better safety", Snackbar.LENGTH_LONG).show();
         }
+        else if (emgContacts == 3) {
+
+            Snackbar.make(findViewById(R.id.my_constLayout), "Add one more emergency contact for your better safety", Snackbar.LENGTH_LONG).show();
+        }
+        else if (emgContacts == 4) {
+
+            Snackbar.make(findViewById(R.id.my_constLayout), "Add one more emergency contact for your better safety", Snackbar.LENGTH_LONG).show();
+        }
 
         showContacts();
     }
@@ -121,7 +137,7 @@ public class ContactsActivity extends AppCompatActivity {
 
 
         // clear the list first
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             icons[i].setImageResource(0);
             people[i].setText("");
 
@@ -148,7 +164,7 @@ public class ContactsActivity extends AppCompatActivity {
         }
 
 
-        if (emgContacts == 3) {
+        if (emgContacts == 5) {
             // hide the button
             addContactButton.setVisibility(View.GONE);
         }

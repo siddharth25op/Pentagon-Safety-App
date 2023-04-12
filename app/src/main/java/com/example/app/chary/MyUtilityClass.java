@@ -30,6 +30,10 @@ public class MyUtilityClass {
     private static final String KEY_CON1 = "con1";
     private static final String KEY_CON2 = "con2";
     private static final String KEY_CON3 = "con3";
+
+    private static final String KEY_CON4 = "con4";
+
+    private static final String KEY_CON5 = "con5";
     private static final String KEY_CONTACTS_NO = "no_of_contacts";
 
     private static final String DELIMITER = "/";
@@ -116,7 +120,9 @@ public class MyUtilityClass {
         phoneNumbers = new String[]{
                 sh.getString(KEY_CON1, ""),
                 sh.getString(KEY_CON2, ""),
-                sh.getString(KEY_CON3, "")
+                sh.getString(KEY_CON3, ""),
+                sh.getString(KEY_CON4, ""),
+                sh.getString(KEY_CON5, "")
         };
 
 
