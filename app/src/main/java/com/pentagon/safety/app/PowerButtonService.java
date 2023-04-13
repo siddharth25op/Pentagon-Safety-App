@@ -1,4 +1,4 @@
-package com.example.app.chary;
+package com.pentagon.safety.app;
 
 import android.Manifest;
 import android.app.Service;
@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class PowerButtonService extends Service{
     private MyReceiver myReceiver;
 
-    private static final String PREF_FILE_NAME = "com.example.app.contactpickerapp.my_pref";
+    private static final String PREF_FILE_NAME = "com.example.app.contraception.my_pref";
     private static final String KEY_CONTACTS_NO = "no_of_contacts";
 
     MyUtilityClass utility;

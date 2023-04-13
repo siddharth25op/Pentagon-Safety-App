@@ -1,4 +1,4 @@
-package com.example.app.chary;
+package com.pentagon.safety.app;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+
+import com.example.app.chary.R;
 
 public class CustomizeActivity extends AppCompatActivity {
     SharedPreferences sh;

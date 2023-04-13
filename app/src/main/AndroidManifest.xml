@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,7 @@
         android:roundIcon="@drawable/app_widget"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.pentagon.safety.app.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,12 +23,12 @@
         </activity>
 
         <service
-            android:name=".PowerButtonService"
+            android:name="com.pentagon.safety.app.PowerButtonService"
             android:enabled="true"
             android:exported="true" />
 
         <receiver
-            android:name=".MyBootReceiver"
+            android:name="com.pentagon.safety.app.MyBootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -37,10 +38,10 @@
         </receiver>
 
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.pentagon.safety.app.SettingsActivity"
+            android:parentActivityName="com.pentagon.safety.app.MainActivity" />
 
-        <receiver android:name=".MyAppWidget">
+        <receiver android:name="com.pentagon.safety.app.MyAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -51,12 +52,12 @@
         </receiver>
 
         <activity
-            android:name=".ContactsActivity"
-            android:parentActivityName=".MainActivity" />
+            android:name="com.pentagon.safety.app.ContactsActivity"
+            android:parentActivityName="com.pentagon.safety.app.MainActivity" />
 
         <activity
-            android:name=".CustomizeActivity"
-            android:parentActivityName=".CustomizeActivity">
+            android:name="com.pentagon.safety.app.CustomizeActivity"
+            android:parentActivityName="com.pentagon.safety.app.CustomizeActivity">
         </activity>
 
     </application>

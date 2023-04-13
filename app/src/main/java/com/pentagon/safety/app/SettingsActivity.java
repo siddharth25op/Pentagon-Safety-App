@@ -1,4 +1,4 @@
-package com.example.app.chary;
+package com.pentagon.safety.app;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
