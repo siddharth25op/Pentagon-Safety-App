@@ -12,7 +12,6 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.app.chary.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -47,12 +46,13 @@ public class MyUtilityClass {
 
     private int mCounter = 0;
 
-    private static final String PREF_FILE_NAME = "com.example.app.contactpickerapp.my_pref";
+    private static final String PREF_FILE_NAME = "com.example.app.contraception.my_pref";
 
     private String[] phoneNumbers;
-    private SharedPreferences sh;
+    private final SharedPreferences sh;
 
 
+    @SuppressLint("VisibleForTests")
     public MyUtilityClass(final Context mContext) {
         this.mContext = mContext;
 
@@ -82,7 +82,7 @@ public class MyUtilityClass {
                     // get at max three location updates
                     // and then send sms
 
-                    String url = String.format("https://www.google.com/maps/search/?api=1&query=%f,%f",
+                    @SuppressLint("DefaultLocale") String url = String.format("https://www.google.com/maps/search/?api=1&query=%f,%f",
                             location.getLatitude(), location.getLongitude());
 
                     sendSMS(url, phoneNumbers);
@@ -153,18 +153,12 @@ public class MyUtilityClass {
 
         SharedPreferences sh = PreferenceManager.getDefaultSharedPreferences(mContext);
 
-//        String sosMsg = sh.getString("user_msg",mContext.getString(R.string.default_msg));
-//
-//        SmsManager smsManager = SmsManager.getDefault();
-//        String smsBody = sosMsg + "\n" + mapUrl;
-
-        //////// added //////////
         String smsBody = sh.getString("user_msg",mContext.getString(R.string.default_msg));
 
         SmsManager smsManager = SmsManager.getDefault();
 
         if(sh.getBoolean("send_time_switch",true)){
-            DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss");
+            @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss");
             String date = df.format(Calendar.getInstance().getTime());
             smsBody += "\n"+date;
         }
@@ -175,10 +169,10 @@ public class MyUtilityClass {
         //////////////////
 
 
-        PendingIntent sentIntent = PendingIntent.getBroadcast(mContext, 20, new Intent(MyReceiver.ACTION_SMS_SENT),
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent sentIntent = PendingIntent.getBroadcast(mContext, 20, new Intent(MyReceiver.ACTION_SMS_SENT),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        PendingIntent deliveryIntent = PendingIntent.getBroadcast(mContext, 73, new Intent(MyReceiver.ACTION_SMS_DELIVERED),
+        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent deliveryIntent = PendingIntent.getBroadcast(mContext, 73, new Intent(MyReceiver.ACTION_SMS_DELIVERED),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import java.util.Objects;
+
 public class MyReceiver extends BroadcastReceiver {
 
     private static int mCount = 0;
@@ -21,7 +23,7 @@ public class MyReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        switch (intent.getAction()) {
+        switch (Objects.requireNonNull(intent.getAction())) {
             case ACTION_SMS_SENT:
                 //Toast.makeText(context, "SOS Message Sent", Toast.LENGTH_LONG).show();
 
@@ -47,8 +49,8 @@ public class MyReceiver extends BroadcastReceiver {
     private void doPowerButtonCount(Context context) {
         long ts = System.currentTimeMillis() / 1000;
 
-        //Log.d(MainActivity.TAG, "mTimeStamp = " + mTimeStamp);
-        //Log.d(MainActivity.TAG, "TS = " + ts);
+         Log.d(MainActivity.TAG, "mTimeStamp = " + mTimeStamp);
+         Log.d(MainActivity.TAG, "TS = " + ts);
 
 
         if (mCount == 0 && mTimeStamp == 0) {

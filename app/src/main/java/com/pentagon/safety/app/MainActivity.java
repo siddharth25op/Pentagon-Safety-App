@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,22 +19,19 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.app.chary.R;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,28 +61,22 @@ public class MainActivity extends AppCompatActivity {
 
         try
         {
-            this.getSupportActionBar().hide();
+            Objects.requireNonNull(this.getSupportActionBar()).hide();
         }
-        catch (NullPointerException e){}
+        catch (NullPointerException ignored){}
 
         // customize btn click
-        customize_btn = (Button) findViewById(R.id.customize_btn);
-        customize_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CustomizeActivity.class);
-                startActivity(intent);
-            }
+        customize_btn = findViewById(R.id.customize_btn);
+        customize_btn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CustomizeActivity.class);
+            startActivity(intent);
         });
 
         // add contacts btn click
-        contacts_btn = (Button) findViewById(R.id.contacts_btn);
-        contacts_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
-                startActivity(intent);
-            }
+        contacts_btn = findViewById(R.id.contacts_btn);
+        contacts_btn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
+            startActivity(intent);
         });
 
         //flashlight btn click
@@ -97,33 +89,30 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        flashlight_btn = (Button) findViewById(R.id.flashlight_btn);
-        flashlight_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (toggleFlashLightOnOff)
-                    try {
-                        // true sets the torch in ON mode
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                            cameraManager.setTorchMode(getCameraID, true);
+        flashlight_btn = findViewById(R.id.flashlight_btn);
+        flashlight_btn.setOnClickListener(v -> {
+            if (toggleFlashLightOnOff)
+                try {
+                    // true sets the torch in ON mode
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        cameraManager.setTorchMode(getCameraID, true);
 
-                        toggleFlashLightOnOff=false;
+                    toggleFlashLightOnOff=false;
 
-                    } catch (CameraAccessException e){
-                        e.printStackTrace();
-                    }
-                else
-                    try {
-                        // true sets the torch in OFF mode
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                            cameraManager.setTorchMode(getCameraID, false);
+                } catch (CameraAccessException e){
+                    e.printStackTrace();
+                }
+            else
+                try {
+                    // true sets the torch in OFF mode
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        cameraManager.setTorchMode(getCameraID, false);
 
-                        toggleFlashLightOnOff=true;
+                    toggleFlashLightOnOff=true;
 
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
-            }
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
         });
 
         sh = getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
@@ -135,13 +124,10 @@ public class MainActivity extends AppCompatActivity {
         // start the service
         startService(new Intent(this, PowerButtonService.class));
 
-        (findViewById(R.id.my_fab)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        (findViewById(R.id.my_fab)).setOnClickListener(v -> {
 
-                // Make sure the GPS is ON
-                MainActivity.this.checkGPS();
-            }
+            // Make sure the GPS is ON
+            MainActivity.this.checkGPS();
         });
 
         View backgroundImage = findViewById(R.id.my_layout);
@@ -189,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("VisibleForTests")
     private void checkGPS() {
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -200,29 +187,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Get a reference to device's setting
         SettingsClient client = LocationServices.getSettingsClient(this);
-        client.checkLocationSettings(builder.build()).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        if (e instanceof ResolvableApiException) {
+        client.checkLocationSettings(builder.build()).addOnFailureListener(e -> {
+            if (e instanceof ResolvableApiException) {
 
-                            // Location settings are not satisfied
-                            // show the user a dialog
-                            try {
-                                ((ResolvableApiException) e).startResolutionForResult(MainActivity.this, MY_LOCATION_REQUEST_CODE);
+                // Location settings are not satisfied
+                // show the user a dialog
+                try {
+                    ((ResolvableApiException) e).startResolutionForResult(MainActivity.this, MY_LOCATION_REQUEST_CODE);
 
-                            } catch (IntentSender.SendIntentException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    }
-                })
+                } catch (IntentSender.SendIntentException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        })
 
-                .addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
-                    @Override
-                    public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                        MainActivity.this.triggerService();
-                    }
-                });
+                .addOnSuccessListener(locationSettingsResponse -> MainActivity.this.triggerService());
     }
 
 
@@ -261,16 +240,13 @@ public class MainActivity extends AppCompatActivity {
     private void showSnackBar(String msg) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.my_layout), msg, Snackbar.LENGTH_LONG);
 
-        snackbar.setAction("Go to Settings", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Send user to the setting activity
+        snackbar.setAction("Go to Settings", v -> {
+            // Send user to the setting activity
 
-                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+            Intent intent = new Intent(Settings.ACTION_SETTINGS);
 
-                if (intent.resolveActivity(MainActivity.this.getPackageManager()) != null) {
-                    MainActivity.this.startActivity(intent);
-                }
+            if (intent.resolveActivity(MainActivity.this.getPackageManager()) != null) {
+                MainActivity.this.startActivity(intent);
             }
         });
 
